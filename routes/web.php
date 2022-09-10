@@ -27,4 +27,5 @@ if (! file_exists($path)){
     return view('post',[
         'post'=> $post
     ]);
-});
+}
+)->where('post','[A-z_\-]+');
