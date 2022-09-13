@@ -8,24 +8,20 @@
     <link rel="stylesheet" href="/app.css">
 </head>
 <body>
-    <article>
-        <a href="/posts/my-first-post"><h1>My first post</h1></a>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto delectus obcaecati animi quibusdam, libero possimus qui eaque quaerat odit reiciendis ullam laboriosam illum, iste accusamus deserunt accusantium unde sed modi eos alias, vero doloremque! Ipsum, non provident error, assumenda praesentium voluptatibus culpa, iure velit beatae obcaecati natus eum magni aspernatur. Alias dolores reprehenderit nulla fugit velit praesentium odit nostrum dolor adipisci quia esse ea tempore accusamus similique repudiandae eius officiis iusto cumque doloribus, laboriosam, autem distinctio quasi natus. Accusamus, fugiat dicta inventore dignissimos ut cum! Eligendi accusantium earum quae asperiores consectetur sequi. Minus aperiam nostrum quasi sed, debitis iusto sapiente?
-        </p>
-    </article>
-    <article>
-        <a href="/posts/my-second-post"><h1>My second post</h1></a>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto delectus obcaecati animi quibusdam, libero possimus qui eaque quaerat odit reiciendis ullam laboriosam illum, iste accusamus deserunt accusantium unde sed modi eos alias, vero doloremque! Ipsum, non provident error, assumenda praesentium voluptatibus culpa, iure velit beatae obcaecati natus eum magni aspernatur. Alias dolores reprehenderit nulla fugit velit praesentium odit nostrum dolor adipisci quia esse ea tempore accusamus similique repudiandae eius officiis iusto cumque doloribus, laboriosam, autem distinctio quasi natus. Accusamus, fugiat dicta inventore dignissimos ut cum! Eligendi accusantium earum quae asperiores consectetur sequi. Minus aperiam nostrum quasi sed, debitis iusto sapiente?
-        </p>
-    </article>
-    <article>
-        <a href="/posts/my-third-post"><h1>My third post</h1></a>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto delectus obcaecati animi quibusdam, libero possimus qui eaque quaerat odit reiciendis ullam laboriosam illum, iste accusamus deserunt accusantium unde sed modi eos alias, vero doloremque! Ipsum, non provident error, assumenda praesentium voluptatibus culpa, iure velit beatae obcaecati natus eum magni aspernatur. Alias dolores reprehenderit nulla fugit velit praesentium odit nostrum dolor adipisci quia esse ea tempore accusamus similique repudiandae eius officiis iusto cumque doloribus, laboriosam, autem distinctio quasi natus. Accusamus, fugiat dicta inventore dignissimos ut cum! Eligendi accusantium earum quae asperiores consectetur sequi. Minus aperiam nostrum quasi sed, debitis iusto sapiente?
-        </p>
-    </article>
+    
+    @foreach ($posts as $post)
+        <article>
+            <a href="/posts/{{ $post->slug; }}"><h1>{!! $post->title !!}</h1></a>
+            <h3>{!! $post->date !!}</h3>
+            <div>
+                {!! $post->excerpt !!}
+            </div>
+          
+        </article>
+    @endforeach
+    
+    
+    
  
 </body>
 </html>
