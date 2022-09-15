@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,7 @@ use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
 
 Route::get('/', function () {
     // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
-    $posts = Post::with('category')->get();
+    $posts = Post::latest('created_at')->with('category','author')->get();
     return view('posts',[
         'posts'=>$posts
     ]);
@@ -33,6 +34,13 @@ Route::get('posts/{post:slug}',function(Post $post){
     ]);
 }
 );
+
+Route::get('/authors/{author:username}', function ( $author) {
+    // dd(User::where('username',$author)->get());
+    return view('posts',[
+        'posts'=> $author->posts,
+    ]);
+});
 
 
 Route::get('/categories/{category:slug}', function (Category $category) {
