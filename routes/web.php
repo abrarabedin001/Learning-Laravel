@@ -23,7 +23,8 @@ Route::get('/', function () {
     // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
     $posts = Post::latest('created_at')->with('category','author')->get();
     return view('posts',[
-        'posts'=>$posts
+        'posts'=>$posts,
+        'categories'=>Category::all()
     ]);
 });
 
@@ -39,6 +40,8 @@ Route::get('/authors/{author:username}', function ( $author) {
     // dd(User::where('username',$author)->get());
     return view('posts',[
         'posts'=> $author->posts,
+
+        'categories'=>Category::all()
     ]);
 });
 
@@ -47,6 +50,9 @@ Route::get('/categories/{category:slug}', function (Category $category) {
     // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
     $posts = $category->posts;
     return view('posts',[
-        'posts'=>$posts
+        'posts'=>$posts,
+        'currentCategory' => $category,
+        'categories'=>Category::all()
+
     ]);
 });
