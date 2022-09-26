@@ -12,7 +12,7 @@
 
 
     {{-- Links --}}
-    <div x-show="show" class="py2  mt-2 rounded-xl w-full z-50">
+    <div x-show="show" class="py2 absolute mt-2 rounded-xl w-full z-50 overflow-auto max-h-51">
         {{ $slot }}
 
     </div>

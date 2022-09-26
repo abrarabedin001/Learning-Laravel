@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Category;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
 
@@ -19,26 +20,13 @@ use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
 |
 */
 
-Route::get('/', function () {
-    // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
-    $posts = Post::latest('created_at')->with('category','author')->get();
-    return view('posts',[
-        'posts'=>$posts,
-        'categories'=>Category::all()
-    ]);
-});
+Route::get('/', [PostController::class,'index']);
 
-Route::get('posts/{post:slug}',function(Post $post){
-    // $post = Post::find($id);
-    return view('post',[
-        'post'=>$post
-    ]);
-}
-);
+Route::get('posts/{post:slug}',[PostController::class,'show']);
 
-Route::get('/authors/{author:username}', function ( $author) {
+Route::get('/authors/{author:username}', function ( User $author) {
     // dd(User::where('username',$author)->get());
-    return view('posts',[
+    return view('posts.index',[
         'posts'=> $author->posts,
 
         'categories'=>Category::all()
@@ -46,13 +34,13 @@ Route::get('/authors/{author:username}', function ( $author) {
 });
 
 
-Route::get('/categories/{category:slug}', function (Category $category) {
-    // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
-    $posts = $category->posts;
-    return view('posts',[
-        'posts'=>$posts,
-        'currentCategory' => $category,
-        'categories'=>Category::all()
+// Route::get('/categories/{category:slug}', function (Category $category) {
+//     // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
+//     $posts = $category->posts;
+//     return view('posts',[
+//         'posts'=>$posts,
 
-    ]);
-});
+
+
+//     ]);
+// });
