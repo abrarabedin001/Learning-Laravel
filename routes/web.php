@@ -9,6 +9,8 @@ use App\Http\Controllers\PostController;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Controllers\PostCommentController;
+use App\Http\Controllers\AdminPostController;
 use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
 
 /*
@@ -23,6 +25,7 @@ use League\CommonMark\Extension\FrontMatter\Data\LibYamlFrontMatterParser;
 */
 
 Route::get('/', [PostController::class,'index']);
+Route::get('/categories/{category}', [PostController::class,'index']);
 
 Route::get('posts/{post:slug}',[PostController::class,'show']);
 
@@ -34,21 +37,16 @@ Route::get('/authors/{author:username}', function ( User $author) {
         'categories'=>Category::all()
     ]);
 });
-
+Route::post('posts/{post:slug}',[PostCommentController::class,'store']);
 Route::get('register',[RegisterController::class,'create'])->middleware('guest');
 Route::post('register',[RegisterController::class,'store'])->middleware('guest');
 Route::post('logout',[SessionsController::class,'destroy'])->middleware('auth');
 Route::get('login',[SessionsController::class,'create'])->middleware('guest');
 Route::post('login',[SessionsController::class,'store'])->middleware('guest');
+Route::get('admin/posts/create',[PostController::class,'create'])->middleware('admin');
+Route::post('admin/posts',[PostController::class,'store'])->middleware('admin');
+Route::get('admin/posts',[AdminPostController::class,'index'])->middleware('admin');
+Route::get('admin/posts/{post}/edit',[AdminPostController::class,'edit'])->middleware('admin');
+Route::get('admin/posts/{post}/delete',[AdminPostController::class,'delete'])->middleware('admin');
+Route::patch('admin/posts/{post}',[AdminPostController::class,'update'])->middleware('admin');
 
-
-// Route::get('/categories/{category:slug}', function (Category $category) {
-//     // $posts = YamlFrontMatter::parseFile(resource_path("posts/my-first-post.html"));
-//     $posts = $category->posts;
-//     return view('posts',[
-//         'posts'=>$posts,
-
-
-
-//     ]);
-// });

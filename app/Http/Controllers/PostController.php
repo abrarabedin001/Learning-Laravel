@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -25,8 +26,37 @@ class PostController extends Controller
             'post'=>$post
         ]);
     }
+    public function addComment(Post $post){
+        // $post = Post::find($id);
+        return view('posts.show',[
+            'post'=>$post
+        ]);
+    }
+    public function create(){
 
+        return view('admin.posts.create');
+    }
+    public function store(){
 
+        // $path = request()->file('thumbnail')->store('thumbnails');
+        // return 'Done: '.$path;
+
+        $attributes = request()->validate([
+            'title'=>'required',
+            'thumbnail'=>'required|image',
+            'slug'=>['required', Rule::unique('posts','slug')],
+            'excerpt'=> 'required',
+            'body'=>'required',
+            'category_id'=>['required',Rule::exists('categories','id')]
+        ]);
+        $attributes['user_id'] = auth()->id();
+        $attributes['thumbnail'] = request()->file('thumbnail')->store('public/thumbnails');
+        // dd($attributes,request()->all());
+        Post::create($attributes);
+        return redirect('/');
+    }
+
+    
 
 }
 
